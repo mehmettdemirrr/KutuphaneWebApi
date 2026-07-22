@@ -13,8 +13,8 @@ namespace Business.ValidationRules.FluentValidation
     {
         public AuthorValidator()
         {
-            RuleFor(a => a.Name).NotEmpty().WithMessage(Messages.AuthorNameIsEmpty);
-            RuleFor(a => a.Name).MinimumLength(2).WithMessage(Messages.AuthorNameIsShort);
+            RuleFor(a => a.AuthorName).NotEmpty().WithMessage(Messages.AuthorNameIsEmpty);
+            RuleFor(a => a.AuthorName).MinimumLength(2).WithMessage(Messages.AuthorNameIsShort);
         }
     }
 }

@@ -11,10 +11,11 @@ namespace Business.Abstract
 {
     public interface IBookService
     {
-        IDataResult<List<Book>> GetAll();
-        IDataResult<List<Book>> GetAllByCategoryId(int id);
+        IDataResult<List<Book>> GetAllBooks();
+        IDataResult<List<Book>> GetBooksByAuthorId(int authorId);
+        IDataResult<List<Book>> GetBooksByCategoryId(int categoryId);
         IDataResult<List<BookDetailDto>> GetBookDetails();
-        IDataResult<Book> GetById(int bookId);
+        IDataResult<Book> GetBookById(int bookId);
         IResult Add(Book book);
         IResult Update(Book book);
         IResult Delete(Book book);

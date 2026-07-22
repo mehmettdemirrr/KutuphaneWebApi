@@ -22,11 +22,17 @@ namespace Business.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
-            builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
+            builder.RegisterType<BookManager>().As<IBookService>().SingleInstance();
+            builder.RegisterType<EfBookDal>().As<IBookDal>().SingleInstance();
 
             builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
             builder.RegisterType<EfCategoryDal>().As<ICategoryDal>().SingleInstance();
+
+            builder.RegisterType<AuthorManager>().As<IAuthorService>().SingleInstance();
+            builder.RegisterType<EfAuthorDal>().As<IAuthorDal>().SingleInstance();
+
+            builder.RegisterType<BorrowManager>().As<IBorrowService>().SingleInstance();
+            builder.RegisterType<EfBorrowDal>().As<IBorrowDal>().SingleInstance();
 
             builder.RegisterType<UserManager>().As<IUserService>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();

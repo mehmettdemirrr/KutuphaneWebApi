@@ -10,8 +10,8 @@ namespace Entities.DTO
     public class BookDetailDto : IDto
     {
         public int BookId { get; set; }
+        public int UnitsInStock { get; set; }
         public string Title { get; set; }
         public string CategoryName { get; set; }
-        public short UnitsInStock { get; set; }
     }
 }

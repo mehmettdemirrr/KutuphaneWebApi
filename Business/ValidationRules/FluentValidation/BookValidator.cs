@@ -18,10 +18,15 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(b => b.UnitsInStock).GreaterThanOrEqualTo(0).WithMessage(MinimumStock);
 
             RuleFor(b => b.ISBN).NotEmpty().WithMessage(Messages.ISBNIsEmpty);
-            RuleFor(b => b.ISBN).MinimumLength(2).WithMessage(Messages.ISBNIsShort);
+            RuleFor(b => b.ISBN).MinimumLength(10).WithMessage(Messages.ISBNIsShort);
 
             RuleFor(b => b.Title).NotEmpty().WithMessage(Messages.TitleIsEmpty);
             RuleFor(b => b.Title).MinimumLength(2).WithMessage(Messages.TitleIsShort);
+        }
+
+        private string MinimumStock(Book book)
+        {
+            throw new NotImplementedException();
         }
 
         //private bool StartWithA(string arg)

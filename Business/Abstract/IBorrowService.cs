@@ -11,9 +11,10 @@ namespace Business.Abstract
 {
     public interface IBorrowService
     {
-        IDataResult<List<Borrow>> GetAll();
+        IDataResult<List<Borrow>> GetAllBorrows();
         IDataResult<List<BorrowDetailDto>> GetBorrowDetails();
-        IDataResult<Borrow> GetById(int borrowId);
+        IDataResult<Borrow> GetBorrowById(int borrowId); 
+        IDataResult<List<Borrow>> GetActiveBorrowsByBookId(int bookId);
         IResult Loan(Borrow borrow);
         IResult Return(Borrow borrow);
     }

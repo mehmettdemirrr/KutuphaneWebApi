@@ -11,10 +11,9 @@ namespace Business.Abstract
 {
     public interface IAuthorService
     {
-        IDataResult<List<Author>> GetAll();
-        IDataResult<List<Author>> GetAllByAuthorId(int id);
-        IDataResult<List<AuthorDetailDto>> GetAuthorDetails();
-        IDataResult<Author> GetById(int authorId);
+        IDataResult<List<Author>> GetAllAuthors();
+        IDataResult<List<Book>> GetBooksByAuthorId(int id);
+        IDataResult<Author> GetAuthorById(int authorId);
         IResult Add(Author author);
         IResult Update(Author author);
         IResult Delete(Author author);
