@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class Category : IEntity
+    public class Category : IEntity, ISoftDelete
     {
         public int CategoryId { get; set; }
 
         public string CategoryName { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

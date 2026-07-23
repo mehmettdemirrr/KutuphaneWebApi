@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("Update")]
+        [HttpPatch("Update")]
         public IActionResult Update(Author author)
         {
             var result = _authorService.Update(author);
@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("Delete")]
+        [HttpDelete("Delete")]
         public IActionResult Delete(Author author)
         {
             var result = _authorService.Delete(author);

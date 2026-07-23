@@ -82,7 +82,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("Return")]
+        [HttpPatch("Return")]
         public IActionResult Return(Borrow borrow)
         {
             var result = _borrowService.Return(borrow);

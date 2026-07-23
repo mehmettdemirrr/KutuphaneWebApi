@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities.Concrete
 {
-    public class User :IEntity
+    public class User : IEntity, ISoftDelete
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -15,5 +15,6 @@ namespace Core.Entities.Concrete
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public bool Status { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class Product : IEntity
+    public class Product : IEntity, ISoftDelete
     {
         public int ProductId { get; set; }
 
@@ -18,5 +18,6 @@ namespace Entities.Concrete
         public short UnitsInStock { get; set; }
 
         public decimal UnitPrice { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

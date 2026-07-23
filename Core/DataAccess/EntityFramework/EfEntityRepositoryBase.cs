@@ -21,6 +21,11 @@ namespace Core.DataAccess.EntityFramework
         }
         public void Add(TEntity entity)
         {
+            if (entity is ISoftDelete softDeleteEntity)
+            {
+                softDeleteEntity.IsDeleted = false;
+            }
+
             var addedEntity = _context.Entry(entity);
             addedEntity.State = EntityState.Added;
             _context.SaveChanges();
@@ -28,19 +33,41 @@ namespace Core.DataAccess.EntityFramework
 
         public void Delete(TEntity entity)
         {
-            var deletedEntity = _context.Entry(entity);
-            deletedEntity.State = EntityState.Deleted;
+            if (entity is ISoftDelete softDeleteEntity)
+            {
+                softDeleteEntity.IsDeleted = true;
+                var updatedEntity = _context.Entry(softDeleteEntity);
+                updatedEntity.State = EntityState.Modified;
+            }
+            else
+            {
+                var deletedEntity = _context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+            }
+
             _context.SaveChanges();
         }
 
         public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
-            return _context.Set<TEntity>().SingleOrDefault(filter);
+            IQueryable<TEntity> query = _context.Set<TEntity>();
+            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
+            {
+                query = query.Where(e => !EF.Property<bool>(e, "IsDeleted"));
+            }
+
+            return query.SingleOrDefault(filter);
         }
 
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
-            return filter == null ? _context.Set<TEntity>().ToList() : _context.Set<TEntity>().Where(filter).ToList();
+            IQueryable<TEntity> query = _context.Set<TEntity>();
+            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
+            {
+                query = query.Where(e => !EF.Property<bool>(e, "IsDeleted"));
+            }
+
+            return filter == null ? query.ToList() : query.Where(filter).ToList();
         }
 
         public void Update(TEntity entity)

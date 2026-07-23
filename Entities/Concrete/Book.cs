@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class Book : IEntity
+    public class Book : IEntity, ISoftDelete
     {
         public int BookId { get; set; }
         public int AuthorId { get; set; }
@@ -16,5 +16,6 @@ namespace Entities.Concrete
         public int UnitsInStock { get; set; }
         public string ISBN { get; set; }
         public string Title { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

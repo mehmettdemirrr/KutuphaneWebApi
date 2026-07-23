@@ -2,7 +2,7 @@
 
 namespace Entities.Concrete
 {
-    public class Borrow : IEntity
+    public class Borrow : IEntity, ISoftDelete
     {
         public int BorrowId { get; set; }
         public int BookId { get; set; }
@@ -10,5 +10,6 @@ namespace Entities.Concrete
         public DateTime BorrowDate { get; set; }
         public DateTime ReturnDate { get; set; }
         public bool IsReturned { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
