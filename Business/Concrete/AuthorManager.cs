@@ -26,26 +26,20 @@ namespace Business.Concrete
             _bookDal = bookDal;
         }
 
-        [CacheAspect]
+        //// [CacheAspect]
         public IDataResult<List<Author>> GetAllAuthors()
         {
             return new SuccessDataResult<List<Author>>(_authorDal.GetAll(), Messages.AuthorsListed);
         }
 
-        [CacheAspect]
+        //// [CacheAspect]
         public IDataResult<Author> GetAuthorById(int authorId)
         {
             return new SuccessDataResult<Author>(_authorDal.Get(a => a.AuthorId == authorId));
         }
 
-        [CacheAspect]
-        public IDataResult<List<Book>> GetBooksByAuthorId(int authorId)
-        {
-            return new SuccessDataResult<List<Book>>(_bookDal.GetAll(b => b.AuthorId == authorId));
-        }
-
         [ValidationAspect(typeof(AuthorValidator))]
-        [CacheRemoveAspect("IAuthorService.Get")]
+        // [CacheRemoveAspect("IAuthorService.Get")]
         public IResult Add(Author author)
         {
             IResult result = BusinessRules.Run(
@@ -62,7 +56,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(AuthorValidator))]
-        [CacheRemoveAspect("IAuthorService.Get")]
+        // [CacheRemoveAspect("IAuthorService.Get")]
         public IResult Update(Author author)
         {
             IResult result = BusinessRules.Run(
@@ -79,7 +73,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(AuthorValidator))]
-        [CacheRemoveAspect("IAuthorService.Get")]
+        // [CacheRemoveAspect("IAuthorService.Get")]
         public IResult Delete(Author author)
         {
             IResult result = BusinessRules.Run(

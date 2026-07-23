@@ -37,31 +37,31 @@ namespace Business.Concrete
             _authorService = authorService;
         }
 
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<Book>> GetAllBooks()
         {
             return new SuccessDataResult<List<Book>>(_bookDal.GetAll(), Messages.BooksListed);
         }
 
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<Book>> GetBooksByAuthorId(int authorId)
         {
             return new SuccessDataResult<List<Book>>(_bookDal.GetAll(b => b.AuthorId == authorId));
         }
 
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<Book>> GetBooksByCategoryId(int categoryId)
         {
             return new SuccessDataResult<List<Book>>(_bookDal.GetAll(b => b.CategoryId == categoryId));
         }
 
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<BookDetailDto>> GetBookDetails()
         {
             return new SuccessDataResult<List<BookDetailDto>>(_bookDal.GetBookDetails());
         }
 
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<Book> GetBookById(int bookId)
         {
             return new SuccessDataResult<Book>(_bookDal.Get(p => p.BookId == bookId));
@@ -69,8 +69,7 @@ namespace Business.Concrete
 
         //[SecuredOperation("book.add,admin")]
         [ValidationAspect(typeof(BookValidator))]
-        [CacheRemoveAspect("IBookService.Get")]
-        //[PerformanceAspect(5)]
+        //[CacheRemoveAspect("IBookService.Get")]
         public IResult Add(Book book)
         {
             IResult result = BusinessRules.Run(
@@ -90,7 +89,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(BookValidator))]
-        [CacheRemoveAspect("IBookService.Get")]
+        //[CacheRemoveAspect("IBookService.Get")]
         public IResult Update(Book book)
         {
             IResult result = BusinessRules.Run(
@@ -110,7 +109,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(BookValidator))]
-        [CacheRemoveAspect("IBookService.Get")]
+        //[CacheRemoveAspect("IBookService.Get")]
         public IResult Delete(Book book)
         {
             IResult result = BusinessRules.Run(CheckIfDeletedBookIsBorrowed(book.BookId));
@@ -146,7 +145,7 @@ namespace Business.Concrete
 
         private IResult CheckIfISBNExist(string ISBN, int bookId)
         {
-            var result = _bookDal.GetAll(b => b.Title == ISBN && b.BookId != bookId).Any();
+            var result = _bookDal.GetAll(b => b.ISBN == ISBN && b.BookId != bookId).Any();
             if(result)
             {
                 return new ErrorResult(Messages.ISBNAlreadyExist);

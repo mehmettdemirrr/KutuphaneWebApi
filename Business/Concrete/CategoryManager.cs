@@ -27,20 +27,20 @@ namespace Business.Concrete
             _bookDal = bookDal;
         }
 
-        [CacheAspect]
+        // [CacheAspect]
         public IDataResult<List<Category>> GetAllCategories()
         {
             return new SuccessDataResult<List<Category>>(_categoryDal.GetAll());
         }
 
-        [CacheAspect]
+        // [CacheAspect]
         public IDataResult<Category> GetCategoryById(int categoryId)
         {
             return new SuccessDataResult<Category>(_categoryDal.Get(c => c.CategoryId == categoryId));
         }
 
         [ValidationAspect(typeof(CategoryValidator))]
-        [CacheRemoveAspect("ICategoryService.Get")]
+        // [CacheRemoveAspect("ICategoryService.Get")]
         public IResult Add(Category category)
         {
             var result = BusinessRules.Run(
@@ -57,7 +57,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CategoryValidator))]
-        [CacheRemoveAspect("ICategoryService.Get")]
+        // [CacheRemoveAspect("ICategoryService.Get")]
         public IResult Update(Category category)
         {
             var result = BusinessRules.Run(
@@ -73,7 +73,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CategoryUpdated);
         }
 
-        [CacheRemoveAspect("ICategoryService.Get")]
+        // [CacheRemoveAspect("ICategoryService.Get")]
         public IResult Delete(Category category)
         {
             var result = BusinessRules.Run(
