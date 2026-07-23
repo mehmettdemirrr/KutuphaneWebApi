@@ -26,6 +26,15 @@ namespace Business.Constants
         public static string UserAlreadyExists = "Bu kullanıcı zaten mevcut";
         public static string AccessTokenCreated = "Token oluşturuldu";
 
+        public static string AuthorsListed = "Yazarlar listelendi";
+        public static string AuthorNameAlreadyExist = "Bu yazar zaten mevcut";
+        public static string AuthorAdded = "Yazar eklendi";
+        public static string AuthorUpdated = "Yazar güncellendi";
+        public static string AuthorDeleted = "Yazar silindi";
+        public static string DeletedAuthorHasBooks = "Silinmek istenen yazarın kitapları var";
+        public static string AuthorNameIsEmpty = "Yazar ismi boş bırakılamaz";
+        public static string AuthorNameIsShort = "Yazar ismi en az 2 karakter olmalıdır";
+
         public static string BooksListed = "Kitaplar listelendi";
         public static string BookAdded = "Kitap eklendi";
         public static string BookUpdated = "Kitap güncellendi";
@@ -36,15 +45,12 @@ namespace Business.Constants
         public static string ISBNAlreadyExist = "Bu ISBN zaten mevcut";
 
         public static string BorrowsListed = "Ödünç almalar listelendi";
-
-        public static string AuthorsListed = "Yazarlar listelendi";
-        public static string AuthorNameAlreadyExist = "Bu yazar zaten mevcut";
-        public static string AuthorAdded = "Yazar eklendi";
-        public static string AuthorUpdated = "Yazar güncellendi";
-        public static string AuthorDeleted = "Yazar silindi";
-        public static string DeletedAuthorHasBooks = "Silinmek istenen yazarın kitapları var";
-        public static string AuthorNameIsEmpty = "Yazar ismi boş bırakılamaz";
-        public static string AuthorNameIsShort = "Yazar ismi en az 2 karakter olmalıdır";
+        public static string BorrowUserIdIncorrect = "Geçersiz kullanıcı id";
+        public static string BorrowBookIdIncorrect = "Geçersiz kitap id";
+        public static string BorrowUserLimitExceed = "Kullanıcı ödünç alma limitine ulaştı";
+        public static string BorrowBookHasNoStock = "Stokta kitap yok";
+        public static string BorrowSuccessful = "Kitap ödünç verildi";
+        public static string BorrowReturned = "Kitap geri alındı";
 
         public static string CategoryNameIsEmpty = "Kategori ismi boş bırakılamaz";
         public static string CategoryNameIsShort = "Kategori ismi en az 2 karakter olmalıdır";
