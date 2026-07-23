@@ -22,23 +22,25 @@ namespace Business.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<BookManager>().As<IBookService>().SingleInstance();
-            builder.RegisterType<EfBookDal>().As<IBookDal>().SingleInstance();
+            builder.RegisterType<NorthwindContext>().InstancePerLifetimeScope();
 
-            builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
-            builder.RegisterType<EfCategoryDal>().As<ICategoryDal>().SingleInstance();
+            builder.RegisterType<BookManager>().As<IBookService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfBookDal>().As<IBookDal>().InstancePerLifetimeScope();
 
-            builder.RegisterType<AuthorManager>().As<IAuthorService>().SingleInstance();
-            builder.RegisterType<EfAuthorDal>().As<IAuthorDal>().SingleInstance();
+            builder.RegisterType<CategoryManager>().As<ICategoryService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfCategoryDal>().As<ICategoryDal>().InstancePerLifetimeScope();
 
-            builder.RegisterType<BorrowManager>().As<IBorrowService>().SingleInstance();
-            builder.RegisterType<EfBorrowDal>().As<IBorrowDal>().SingleInstance();
+            builder.RegisterType<AuthorManager>().As<IAuthorService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfAuthorDal>().As<IAuthorDal>().InstancePerLifetimeScope();
 
-            builder.RegisterType<UserManager>().As<IUserService>();
-            builder.RegisterType<EfUserDal>().As<IUserDal>();
+            builder.RegisterType<BorrowManager>().As<IBorrowService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfBorrowDal>().As<IBorrowDal>().InstancePerLifetimeScope();
 
-            builder.RegisterType<AuthManager>().As<IAuthService>();
-            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+            builder.RegisterType<UserManager>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfUserDal>().As<IUserDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>().InstancePerLifetimeScope();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>().InstancePerLifetimeScope();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

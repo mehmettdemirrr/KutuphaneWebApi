@@ -12,30 +12,31 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfBorrowDal : EfEntityRepositoryBase<Borrow, NorthwindContext>, IBorrowDal
     {
+        public EfBorrowDal(NorthwindContext context) : base(context)
+        {
+            
+        }
         public List<BorrowDetailDto> GetBorrowDetails()
         {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                var result = from borrow in context.Borrows
-                             join user in context.Users
-                             on borrow.UserId equals user.Id
-                             join book in context.Books
-                             on borrow.BookId equals book.BookId
-                             select new BorrowDetailDto
-                             {
-                                 BorrowId = borrow.BorrowId,
-                                 UserId = user.Id,
-                                 BookId = book.BookId,
-                                 FirstName = user.FirstName,
-                                 LastName = user.LastName,
-                                 BookTitle = book.Title,
-                                 BorrowDate = borrow.BorrowDate,
-                                 ReturnDate = borrow.ReturnDate,
-                                 IsReturned = borrow.IsReturned
-                             };
+            var result = from borrow in _context.Borrows
+                            join user in _context.Users
+                            on borrow.UserId equals user.Id
+                            join book in _context.Books
+                            on borrow.BookId equals book.BookId
+                            select new BorrowDetailDto
+                            {
+                                BorrowId = borrow.BorrowId,
+                                UserId = user.Id,
+                                BookId = book.BookId,
+                                FirstName = user.FirstName,
+                                LastName = user.LastName,
+                                BookTitle = book.Title,
+                                BorrowDate = borrow.BorrowDate,
+                                ReturnDate = borrow.ReturnDate,
+                                IsReturned = borrow.IsReturned
+                            };
 
-                return result.ToList();
-            }
+            return result.ToList();
         }
     }
 }

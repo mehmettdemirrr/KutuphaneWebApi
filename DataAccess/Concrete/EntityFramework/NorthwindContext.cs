@@ -12,9 +12,9 @@ namespace DataAccess.Concrete.EntityFramework
     // Context : db tabloları ile proje classlarını birbirine bağlamak için kullanılır
     public class NorthwindContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public NorthwindContext(DbContextOptions<NorthwindContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=KutuphaneDb;Trusted_Connection=true");
+            
         }
 
         public DbSet<Author> Authors { get; set; }

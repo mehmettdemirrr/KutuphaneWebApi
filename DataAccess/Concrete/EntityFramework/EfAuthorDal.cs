@@ -11,5 +11,9 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfAuthorDal : EfEntityRepositoryBase<Author, NorthwindContext>, IAuthorDal
     {
+        public EfAuthorDal(NorthwindContext context) : base(context)
+        {
+            
+        }
     }
 }
