@@ -1,4 +1,5 @@
 ﻿using Entities.Concrete;
+using Entities.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,8 @@ namespace Business.Constants
         public static string BookCategoryIdIncorrect = "Geçersiz kategori id";
         public static string BookNameAlreadyExist = "Bu kitap adı zaten mevcut";
         public static string ISBNAlreadyExist = "Bu ISBN zaten mevcut";
+        public static string MostReadBooksListed = "En çok okunan kitaplar başarıyla listelendi.";
+        public static string BookListLimitIsIncorrect = "Limit 1 ile 50 arasında olmalıdır.";
 
         public static string BorrowsListed = "Ödünç almalar listelendi";
         public static string BorrowUserIdIncorrect = "Geçersiz kullanıcı id";

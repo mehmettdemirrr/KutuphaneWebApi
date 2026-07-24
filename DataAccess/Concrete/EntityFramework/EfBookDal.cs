@@ -34,8 +34,36 @@ namespace DataAccess.Concrete.EntityFramework
                              AuthorName = a.AuthorName,
                              CategoryName = c.CategoryName
                          };
-                
+
             return result.ToList();
+        }
+
+        public List<MostReadBookDto> GetMostReadBooks(int limit)
+        {
+            if (limit <= 0) return new List<MostReadBookDto>();
+
+            var query = from b in _context.Books
+                        join a in _context.Authors on b.AuthorId equals a.AuthorId
+                        join c in _context.Categories on b.CategoryId equals c.CategoryId
+                        join br in _context.Borrows on b.BookId equals br.BookId into brs
+                        select new MostReadBookDto
+                        {
+                            BookId = b.BookId,
+                            CategoryId = b.CategoryId,
+                            AuthorId = b.AuthorId,
+                            BorrowCount = brs.Count(br => br.IsReturned && !br.IsDeleted),
+                            PageCount = b.PageCount,
+                            Title = b.Title,
+                            ISBN = b.ISBN,
+                            CategoryName = c.CategoryName,
+                            AuthorName = a.AuthorName
+                        };
+
+            return query
+                .OrderByDescending(x => x.BorrowCount)
+                .ThenBy(x => x.Title)
+                .Take(limit)
+                .ToList();
         }
     }
 }

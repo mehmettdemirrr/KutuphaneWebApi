@@ -60,6 +60,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("GetMostReadBooks")]
+        public IActionResult GetMostReadBooks(int limit = 10)
+        {
+            var result = _bookService.GetMostReadBooks(limit);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("GetBookById")]
         public IActionResult GetBookById(int bookId)
         {

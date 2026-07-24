@@ -27,7 +27,8 @@ namespace Core.DataAccess.EntityFramework
                 softDeleteEntity.IsDeleted = false;
             }
 
-            _context.Set<TEntity>().Add(entity);
+            var addedEntity = _context.Entry(entity);
+            addedEntity.State = EntityState.Added;
             _context.SaveChanges();
         }
 
@@ -65,7 +66,8 @@ namespace Core.DataAccess.EntityFramework
         {
             DetachIfTracked(entity);
 
-            _context.Entry(entity).State = EntityState.Modified;
+            var updatedEntity = _context.Entry(entity);
+            updatedEntity.State = EntityState.Modified;
             _context.SaveChanges();
         }
 

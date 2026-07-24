@@ -15,6 +15,7 @@ namespace Business.Abstract
         IDataResult<List<Book>> GetBooksByAuthorId(int authorId);
         IDataResult<List<Book>> GetBooksByCategoryId(int categoryId);
         IDataResult<List<BookDetailDto>> GetBookDetails();
+        IDataResult<List<MostReadBookDto>> GetMostReadBooks(int limit);
         IDataResult<Book> GetBookById(int bookId);
         IResult Add(Book book);
         IResult Update(Book book);

@@ -19,6 +19,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Business.Concrete
 {
@@ -59,6 +60,15 @@ namespace Business.Concrete
         public IDataResult<List<BookDetailDto>> GetBookDetails()
         {
             return new SuccessDataResult<List<BookDetailDto>>(_bookDal.GetBookDetails());
+        }
+
+        public IDataResult<List<MostReadBookDto>> GetMostReadBooks(int limit)
+        {
+            IResult result = BusinessRules.Run(
+                CheckBookListLimit(limit)
+            );
+            
+            return new SuccessDataResult<List<MostReadBookDto>>(_bookDal.GetMostReadBooks(limit), Messages.MostReadBooksListed);
         }
 
         //[CacheAspect]
@@ -169,6 +179,15 @@ namespace Business.Concrete
             if (result == null)
             {
                 return new ErrorResult(Messages.BookCategoryIdIncorrect);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult CheckBookListLimit(int limit)
+        {
+            if (limit < 1 || limit > 50)
+            {
+                return new ErrorResult(Messages.BookListLimitIsIncorrect);
             }
             return new SuccessResult();
         }
