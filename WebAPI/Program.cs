@@ -41,8 +41,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddDbContext<NorthwindContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<NorthwindContext>(options =>
+    options.UseOracle(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        oracleOptions => oracleOptions.UseOracleSQLCompatibility(OracleSQLCompatibility.DatabaseVersion19)
+    )
+);
 
 builder.Services.AddDependencyResolvers(new ICoreModule[]
 {

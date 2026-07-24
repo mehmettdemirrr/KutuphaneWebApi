@@ -66,7 +66,7 @@ namespace Business.Concrete
 
             Book book = _bookService.GetBookById(borrow.BookId).Data;
             book.UnitsInStock--;
-            borrow.IsReturned = true;
+            borrow.IsReturned = false;
 
             _borrowDal.Add(borrow);
             return new SuccessResult(Messages.BorrowSuccessful);
@@ -81,6 +81,7 @@ namespace Business.Concrete
 
             Book book = _bookService.GetBookById(borrow.BookId).Data;
             book.UnitsInStock++;
+            borrow.IsReturned = true;
 
             _borrowDal.Update(borrow);
             return new SuccessResult(Messages.BorrowReturned);

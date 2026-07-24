@@ -1,9 +1,12 @@
-﻿using Core.Entities.Concrete;
+﻿using Core.Entities;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +17,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public NorthwindContext(DbContextOptions<NorthwindContext> options) : base(options)
         {
-            
+
         }
 
         public DbSet<Author> Authors { get; set; }
@@ -24,5 +27,21 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<User> Users { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(ISoftDelete).IsAssignableFrom(entityType.ClrType))
+                {
+                    var parameter = Expression.Parameter(entityType.ClrType, "e");
+                    var prop = Expression.Property(parameter, "IsDeleted");
+                    var condition = Expression.Equal(prop, Expression.Constant(false));
+                    var lambda = Expression.Lambda(condition, parameter);
+
+                    entityType.SetQueryFilter(lambda);
+                }
+            }
+        }
     }
 }

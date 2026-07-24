@@ -11,7 +11,9 @@ namespace Entities.DTO
     {
         public int BookId { get; set; }
         public int UnitsInStock { get; set; }
+        public int PageCount { get; set; }
         public string Title { get; set; }
+        public string AuthorName { get; set; }
         public string CategoryName { get; set; }
     }
 }

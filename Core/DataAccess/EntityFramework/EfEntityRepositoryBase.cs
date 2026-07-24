@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 namespace Core.DataAccess.EntityFramework
 {
     public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
-        where TEntity : class, IEntity, new()
-        where TContext : DbContext
+    where TEntity : class, IEntity, new()
+    where TContext : DbContext
     {
         protected readonly TContext _context;
 
@@ -19,6 +19,7 @@ namespace Core.DataAccess.EntityFramework
         {
             _context = context;
         }
+
         public void Add(TEntity entity)
         {
             if (entity is ISoftDelete softDeleteEntity)
@@ -26,23 +27,22 @@ namespace Core.DataAccess.EntityFramework
                 softDeleteEntity.IsDeleted = false;
             }
 
-            var addedEntity = _context.Entry(entity);
-            addedEntity.State = EntityState.Added;
+            _context.Set<TEntity>().Add(entity);
             _context.SaveChanges();
         }
 
         public void Delete(TEntity entity)
         {
+            DetachIfTracked(entity);
+
             if (entity is ISoftDelete softDeleteEntity)
             {
                 softDeleteEntity.IsDeleted = true;
-                var updatedEntity = _context.Entry(softDeleteEntity);
-                updatedEntity.State = EntityState.Modified;
+                _context.Entry(entity).State = EntityState.Modified;
             }
             else
             {
-                var deletedEntity = _context.Entry(entity);
-                deletedEntity.State = EntityState.Deleted;
+                _context.Entry(entity).State = EntityState.Deleted;
             }
 
             _context.SaveChanges();
@@ -50,31 +50,44 @@ namespace Core.DataAccess.EntityFramework
 
         public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
-            IQueryable<TEntity> query = _context.Set<TEntity>();
-            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
-            {
-                query = query.Where(e => !EF.Property<bool>(e, "IsDeleted"));
-            }
-
-            return query.SingleOrDefault(filter);
+            return _context.Set<TEntity>().SingleOrDefault(filter);
         }
 
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
-            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
-            {
-                query = query.Where(e => !EF.Property<bool>(e, "IsDeleted"));
-            }
-
-            return filter == null ? query.ToList() : query.Where(filter).ToList();
+            return filter == null
+                ? query.ToList()
+                : query.Where(filter).ToList();
         }
 
         public void Update(TEntity entity)
         {
-            var updatedEntity = _context.Entry(entity);
-            updatedEntity.State = EntityState.Modified;
+            DetachIfTracked(entity);
+
+            _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
+        }
+
+        private void DetachIfTracked(TEntity entity)
+        {
+            var pkProperty = _context.Model
+                .FindEntityType(typeof(TEntity))
+                .FindPrimaryKey()
+                .Properties[0];
+
+            var entityKey = _context.Entry(entity)
+                .Property(pkProperty.Name).CurrentValue;
+
+            var tracked = _context.ChangeTracker
+                .Entries<TEntity>()
+                .FirstOrDefault(e =>
+                    e.Property(pkProperty.Name).CurrentValue?.Equals(entityKey) == true);
+
+            if (tracked != null)
+            {
+                tracked.State = EntityState.Detached;
+            }
         }
     }
 }
